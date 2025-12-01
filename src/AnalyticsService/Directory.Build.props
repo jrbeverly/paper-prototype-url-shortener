@@ -1,0 +1,18 @@
+<Project>
+  <!-- Import root props first; settings below extend or override them for this service. -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup>
+    <!-- Lambda managed runtime requires net8.0; net9.0 is not yet supported. -->
+    <TargetFramework>net8.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+    <!--
+      CA1716: The AWS Lambda runtime locates the handler class by name; renaming
+              'Function' would break the function handler configuration.
+      CA1822: Lambda handler methods are intentionally instance methods to allow
+              future constructor-injected dependencies without a signature change.
+    -->
+    <NoWarn>$(NoWarn);CA1716;CA1822</NoWarn>
+  </PropertyGroup>
+</Project>

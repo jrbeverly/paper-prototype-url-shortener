@@ -1,0 +1,34 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>12</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <RootNamespace>Common.ErrorHandling</RootNamespace>
+    <AssemblyName>Common.ErrorHandling</AssemblyName>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+    <!--
+      CA1716: 'Error' is an intentional public API type name in this error-handling
+              library; renaming it would be a breaking change for all callers.
+      CA1000: Result<T>.Ok() / Result<T>.Fail() are deliberate static factory methods
+              on the generic type — the pattern mirrors Railway Oriented Programming
+              and is understood by consumers of this library.
+      CA1848: High-performance LoggerMessage delegates are a valid optimisation;
+              tracked as a follow-up and suppressed here to keep this library's
+              logging readable without structural boilerplate.
+    -->
+    <NoWarn>$(NoWarn);CA1716;CA1000;CA1848</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <FrameworkReference Include="Microsoft.AspNetCore.App" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="FluentValidation" />
+  </ItemGroup>
+
+</Project>

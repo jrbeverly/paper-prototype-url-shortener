@@ -1,0 +1,35 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <RootNamespace>ControlPlane.Api</RootNamespace>
+    <AssemblyName>ControlPlane.Api</AssemblyName>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="AWSSDK.CloudFront" />
+    <PackageReference Include="AWSXRayRecorder.Core" />
+    <PackageReference Include="AWSXRayRecorder.Handlers.AspNetCore" />
+    <PackageReference Include="AWSXRayRecorder.Handlers.AwsSdk" />
+    <PackageReference Include="AWSSDK.CertificateManager" />
+    <PackageReference Include="AWSSDK.DynamoDBv2" />
+    <PackageReference Include="DnsClient" />
+    <PackageReference Include="FluentValidation" />
+    <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
+    <PackageReference Include="Microsoft.AspNetCore.OpenApi" />
+    <PackageReference Include="Stripe.net" />
+    <PackageReference Include="Swashbuckle.AspNetCore" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../../lib/Common.ErrorHandling/Common.ErrorHandling.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="ControlPlane.Tests" />
+    <InternalsVisibleTo Include="ControlPlane.UnitTests" />
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+  </ItemGroup>
+
+</Project>

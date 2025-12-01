@@ -1,0 +1,22 @@
+{
+  "Information": [
+    "This file provides default values for the deployment wizard inside Visual Studio and the AWS Lambda commands added to the .NET Core CLI.",
+    "Values in this file will be used by the 'dotnet lambda' CLI to package and deploy the function.",
+    "Install the tools: dotnet tool restore (reads .config/dotnet-tools.json in the repo root).",
+    "Package the function:  make build",
+    "Deploy the function:   make deploy-redirect [FUNCTION_NAME=<name>]"
+  ],
+  "profile": "",
+  "region": "us-east-1",
+  "configuration": "Release",
+  "function-architecture": "arm64",
+  "function-runtime": "dotnet8",
+  "function-memory-size": 512,
+  "function-timeout": 3,
+  "function-handler": "RedirectService.Api::RedirectService.Api.Functions.RedirectFunction::HandleAsync",
+  "framework": "net8.0",
+  "package-type": "Zip",
+  "function-name": "redirect-service",
+  "tracing-mode": "Active",
+  "msbuild-parameters": "--self-contained false"
+}

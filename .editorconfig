@@ -1,0 +1,188 @@
+# EditorConfig — repository-wide code style rules
+# https://editorconfig.org
+root = true
+
+# ── General ───────────────────────────────────────────────────────────
+[*]
+charset                  = utf-8
+end_of_line              = lf
+indent_style             = space
+insert_final_newline     = true
+trim_trailing_whitespace = true
+
+# ── C# ────────────────────────────────────────────────────────────────
+[*.{cs,csx,cake}]
+indent_size = 4
+
+# var preferences: use var when type is apparent, explicit otherwise
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_style_var_elsewhere            = false:suggestion
+csharp_style_var_for_built_in_types   = false:suggestion
+
+# namespace declarations: file-scoped (C# 10+)
+csharp_style_namespace_declarations = file_scoped:warning
+
+# this. and Me. qualifiers — omit when not needed
+dotnet_style_qualification_for_field     = false:suggestion
+dotnet_style_qualification_for_property  = false:suggestion
+dotnet_style_qualification_for_method    = false:suggestion
+dotnet_style_qualification_for_event     = false:suggestion
+
+# using directives — inside namespace (prefer global usings instead)
+csharp_using_directive_placement = outside_namespace:suggestion
+
+# prefer simple using statements
+csharp_prefer_simple_using_statement = true:suggestion
+
+# expression-bodied members — when possible
+csharp_style_expression_bodied_methods      = when_on_single_line:suggestion
+csharp_style_expression_bodied_constructors = when_on_single_line:suggestion
+csharp_style_expression_bodied_operators    = when_on_single_line:suggestion
+csharp_style_expression_bodied_properties   = when_on_single_line:suggestion
+csharp_style_expression_bodied_indexers     = when_on_single_line:suggestion
+csharp_style_expression_bodied_accessors    = when_on_single_line:suggestion
+csharp_style_expression_bodied_lambdas      = when_on_single_line:suggestion
+csharp_style_expression_bodied_local_functions = when_on_single_line:suggestion
+
+# pattern matching — prefer pattern matching over as-cast checks
+csharp_style_pattern_matching_over_is_with_cast_check = true:suggestion
+csharp_style_pattern_matching_over_as_with_null_check = true:suggestion
+
+# null checking — prefer pattern matching and null-coalescing
+csharp_style_throw_expression                     = true:suggestion
+csharp_style_conditional_delegate_call            = true:suggestion
+csharp_style_prefer_null_check_over_type_check    = true:suggestion
+
+# prefer auto-properties, compound assignment, switch expressions
+csharp_style_prefer_auto_properties  = true:suggestion
+csharp_prefer_braces                 = when_multiline:suggestion
+csharp_style_prefer_switch_expression = true:suggestion
+csharp_style_prefer_not_pattern       = true:suggestion
+csharp_style_prefer_pattern_matching  = true:silent
+csharp_style_prefer_extended_property_pattern = true:suggestion
+
+# prefer readonly fields and immutable structs
+dotnet_style_readonly_field = true:suggestion
+dotnet_style_predefined_type_for_locals_parameters_members = true:suggestion
+dotnet_style_predefined_type_for_member_access             = true:suggestion
+
+# prefer modern framework features
+dotnet_style_prefer_collection_expression                  = when_types_loosely_match:suggestion
+
+# nullability
+dotnet_style_require_accessibility_modifiers = always:suggestion
+csharp_style_prefer_primary_constructors     = true:suggestion
+
+# modifiers — order and presence
+csharp_prefer_static_local_function          = true:suggestion
+csharp_prefer_static_anonymous_function      = true:suggestion
+csharp_style_prefer_readonly_struct          = true:suggestion
+csharp_style_allow_blank_lines_between_consecutive_braces_experimental = false:suggestion
+
+# unused value handling
+csharp_style_unused_value_expression_statement_preference = discard_variable:suggestion
+csharp_style_unused_value_assignment_preference           = discard_variable:suggestion
+
+# indexing and range
+csharp_style_prefer_index_operator  = true:suggestion
+csharp_style_prefer_range_operator  = true:suggestion
+
+# explicit tuple names
+dotnet_style_explicit_tuple_names = true:suggestion
+
+# code block preferences
+csharp_style_prefer_method_group_conversion = true:suggestion
+csharp_style_allow_embedded_statements_on_same_line_experimental = false:suggestion
+
+# ── Naming conventions ───────────────────────────────────────────────
+# Types and namespaces → PascalCase
+dotnet_naming_rule.types_and_namespaces_rule.severity    = warning
+dotnet_naming_rule.types_and_namespaces_rule.symbols     = types_and_namespaces
+dotnet_naming_rule.types_and_namespaces_rule.style       = pascal_case_style
+dotnet_naming_symbols.types_and_namespaces.applicable_kinds   = class,struct,interface,enum,delegate,namespace
+dotnet_naming_symbols.types_and_namespaces.applicable_accessibilities = *
+dotnet_naming_style.pascal_case_style.capitalization = pascal_case
+
+# Interface → IPascalCase
+dotnet_naming_rule.interface_rule.severity = warning
+dotnet_naming_rule.interface_rule.symbols  = interface_symbols
+dotnet_naming_rule.interface_rule.style    = ipascal_case_style
+dotnet_naming_symbols.interface_symbols.applicable_kinds           = interface
+dotnet_naming_symbols.interface_symbols.applicable_accessibilities = *
+dotnet_naming_style.ipascal_case_style.capitalization = pascal_case
+dotnet_naming_style.ipascal_case_style.required_prefix = I
+
+# Non-field members → PascalCase
+dotnet_naming_rule.public_members_rule.severity    = warning
+dotnet_naming_rule.public_members_rule.symbols     = public_members
+dotnet_naming_rule.public_members_rule.style       = pascal_case_style
+dotnet_naming_symbols.public_members.applicable_kinds   = property,method,event,delegate
+dotnet_naming_symbols.public_members.applicable_accessibilities = public,protected,internal,protected_internal
+
+# Private / internal fields → _camelCase
+dotnet_naming_rule.private_fields_rule.severity = warning
+dotnet_naming_rule.private_fields_rule.symbols  = private_fields
+dotnet_naming_rule.private_fields_rule.style    = underscore_camel_case_style
+dotnet_naming_symbols.private_fields.applicable_kinds           = field
+dotnet_naming_symbols.private_fields.applicable_accessibilities = private,internal
+dotnet_naming_style.underscore_camel_case_style.capitalization = camel_case
+dotnet_naming_style.underscore_camel_case_style.required_prefix = _
+
+# Static fields → PascalCase
+dotnet_naming_rule.static_fields_rule.severity = warning
+dotnet_naming_rule.static_fields_rule.symbols  = static_fields
+dotnet_naming_rule.static_fields_rule.style    = pascal_case_style
+dotnet_naming_symbols.static_fields.applicable_kinds           = field
+dotnet_naming_symbols.static_fields.applicable_accessibilities = public,protected,internal,protected_internal
+
+# Parameters and locals → camelCase
+dotnet_naming_rule.parameters_locals_rule.severity = warning
+dotnet_naming_rule.parameters_locals_rule.symbols  = parameters_locals
+dotnet_naming_rule.parameters_locals_rule.style    = camel_case_style
+dotnet_naming_symbols.parameters_locals.applicable_kinds   = parameter,local
+dotnet_naming_symbols.parameters_locals.applicable_accessibilities = *
+dotnet_naming_style.camel_case_style.capitalization = camel_case
+
+# ── TypeScript / JavaScript ─────────────────────────────────────────
+[*.{ts,tsx,js,jsx,mjs,cjs,vue}]
+indent_size = 2
+
+# ── JSON ─────────────────────────────────────────────────────────────
+[*.{json,jsonc,json5}]
+indent_size = 2
+
+# ── YAML ─────────────────────────────────────────────────────────────
+[*.{yaml,yml}]
+indent_size = 2
+
+# ── Markdown ─────────────────────────────────────────────────────────
+[*.{md,mdx}]
+trim_trailing_whitespace = false
+
+# ── Terraform ─────────────────────────────────────────────────────────
+[*.{tf,tfvars}]
+indent_size = 2
+
+# ── Shell scripts ────────────────────────────────────────────────────
+[*.sh]
+indent_size = 2
+
+# ── Makefile ─────────────────────────────────────────────────────────
+[{Makefile,makefile,**/Makefile}]
+indent_style = tab
+
+# ── Docker ───────────────────────────────────────────────────────────
+[{Dockerfile,Dockerfile.*}]
+indent_size = 2
+
+# ── dotnet specific files ────────────────────────────────────────────
+[*.{csproj,xml,props,targets,proj}]
+indent_size = 2
+
+# ── Terraform lock / generated files ─────────────────────────────────
+[*.{tfstate,tfplan,tflock}]
+generated_code = true
+
+# ── Shell / dotfiles ─────────────────────────────────────────────────
+[{.bashrc,.zshrc,.zshenv,.profile}]
+indent_size = 2

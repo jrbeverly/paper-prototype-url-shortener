@@ -1,0 +1,75 @@
+# ── .NET ────────────────────────────────────────────────────────────────
+bin/
+obj/
+*.user
+*.suo
+*.DotSettings.user
+packages/
+
+# ── Node.js ─────────────────────────────────────────────────────────────
+node_modules/
+dist/
+*.tsbuildinfo
+
+# ── Environment ─────────────────────────────────────────────────────────
+.env
+.env.*
+!.env.example
+!.env.*.example
+!.example.env
+
+# ── Terraform ───────────────────────────────────────────────────────────
+.terraform/
+*.tfstate
+*.tfstate.*
+*.tfvars
+!*.example.tfvars
+!*.tfvars.example
+.terraform.lock.hcl
+
+# ── IDE ─────────────────────────────────────────────────────────────────
+.vscode/*
+!.vscode/settings.json
+!.vscode/extensions.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/*.code-snippets
+.idea/
+*.swp
+*.swo
+*~
+
+# ── OS ──────────────────────────────────────────────────────────────────
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# ── AWS ─────────────────────────────────────────────────────────────────
+credentials
+*.pem
+aws-exports.js
+
+# ── Tooling ─────────────────────────────────────────────────────────────
+.claude/plans/
+coverage/
+*.lcov
+TestResults/
+.pytest_cache/
+__pycache__/
+
+# ── Load tests ───────────────────────────────────────────────────────────
+# Raw k6 per-request JSON output files are excluded — they can be multiple GBs.
+# Compact run summaries (latest-*.json, history.json, data.js) ARE committed.
+test/LoadTests/results/*-[0-9][0-9][0-9][0-9][0-9][0-9][0-9][0-9]-[0-9]*.json
+
+# ── E2E tests ────────────────────────────────────────────────────────────
+test/E2E/node_modules/
+test/E2E/test-results/
+test/E2E/playwright-report/
+test/E2E/playwright/.cache/
+
+# Stray Playwright output if a run is invoked from the frontend app dir
+app/ControlPlane/test-results/
+app/ControlPlane/playwright-report/
+
+dotnet/

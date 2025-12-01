@@ -1,0 +1,25 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Override Directory.Build.props: Lambda managed runtime requires net8.0 (net9.0 not yet supported). -->
+    <TargetFramework>net8.0</TargetFramework>
+    <AWSProjectType>Lambda</AWSProjectType>
+    <RootNamespace>BackupRestoreTest.Function</RootNamespace>
+    <AssemblyName>BackupRestoreTest.Function</AssemblyName>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.Core" />
+    <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" />
+    <PackageReference Include="AWSSDK.DynamoDBv2" />
+    <PackageReference Include="AWSSDK.SimpleNotificationService" />
+    <PackageReference Include="AWSXRayRecorder.Core" />
+    <PackageReference Include="AWSXRayRecorder.Handlers.AwsSdk" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="BackupRestoreTest.Tests" />
+  </ItemGroup>
+
+</Project>

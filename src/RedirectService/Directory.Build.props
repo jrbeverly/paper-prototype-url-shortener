@@ -1,0 +1,17 @@
+<Project>
+  <!-- Import root props first; settings below extend or override them for this service. -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup>
+    <!-- Lambda projects within this service override TargetFramework to net8.0 in their .csproj files. -->
+    <TargetFramework>net9.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+    <!--
+      CA1869: JsonSerializerOptions instantiation in the Lambda handler's error-response
+              path. A cached instance is the correct fix; tracked as a follow-up
+              optimisation and suppressed here to avoid blocking the build config roll-out.
+    -->
+    <NoWarn>$(NoWarn);CA1869</NoWarn>
+  </PropertyGroup>
+</Project>

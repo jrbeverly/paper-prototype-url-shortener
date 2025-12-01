@@ -1,0 +1,36 @@
+<Project>
+  <!--
+    Root Directory.Packages.props — centralises versions for packages used by
+    test projects (test/**) and shared libraries (lib/**).
+
+    Service-level Directory.Packages.props files (src/{Service}/) define their
+    own service-specific production package versions; those files are found
+    first by MSBuild's upward search and are not affected by this file.
+
+    To add a package: append a <PackageVersion> entry here (or in the appropriate
+    service-level file), then reference it without a Version attribute in the .csproj.
+  -->
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- Test infrastructure -->
+    <PackageVersion Include="coverlet.collector" Version="6.0.2" />
+    <PackageVersion Include="FluentAssertions" Version="7.0.0" />
+    <PackageVersion Include="Microsoft.AspNetCore.Mvc.Testing" Version="9.0.0" />
+    <PackageVersion Include="Microsoft.NET.Test.Sdk" Version="17.12.0" />
+    <PackageVersion Include="Moq" Version="4.20.72" />
+    <PackageVersion Include="Testcontainers.LocalStack" Version="4.0.0" />
+    <PackageVersion Include="xunit" Version="2.9.2" />
+    <PackageVersion Include="xunit.runner.visualstudio" Version="2.8.2" />
+
+    <!-- AWS SDK packages referenced by test projects (versions must match service-level props) -->
+    <PackageVersion Include="Amazon.Lambda.Core" Version="2.8.0" />
+    <PackageVersion Include="AWSSDK.DynamoDBv2" Version="3.7.402" />
+    <PackageVersion Include="AWSSDK.SimpleNotificationService" Version="3.7.400" />
+
+    <!-- Shared library packages (lib/Common.ErrorHandling) -->
+    <PackageVersion Include="FluentValidation" Version="11.11.0" />
+  </ItemGroup>
+</Project>

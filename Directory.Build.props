@@ -1,0 +1,26 @@
+<Project>
+  <!--
+    Root Directory.Build.props — inherited by all projects in the repository.
+
+    Service-level and test-level Directory.Build.props files import this file
+    explicitly, then add layer-specific overrides (TargetFramework, IsTestProject, etc.).
+    Individual .csproj files may still override any property set here.
+  -->
+  <PropertyGroup>
+    <!-- Compiler behaviour -->
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <LangVersion>12</LangVersion>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+    <!-- Code analysis: recommended rule set for the latest SDK installed -->
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+
+    <!-- Deterministic builds: identical inputs must produce identical outputs.
+         ContinuousIntegrationBuild additionally normalises source paths so that
+         embedded PDB paths are repo-relative rather than machine-absolute. -->
+    <Deterministic>true</Deterministic>
+    <ContinuousIntegrationBuild Condition="'$(CI)' == 'true'">true</ContinuousIntegrationBuild>
+  </PropertyGroup>
+</Project>

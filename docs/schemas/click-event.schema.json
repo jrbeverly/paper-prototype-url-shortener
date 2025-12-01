@@ -1,0 +1,129 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:shortio:schemas:click-event:v1",
+  "title": "ClickEvent",
+  "description": "Analytics event emitted for every successful URL redirect. Written to Kinesis, transformed by Firehose, and stored in S3 as JSON (partitioned by date). All PII is hashed before emission.",
+  "type": "object",
+  "required": [
+    "event_id",
+    "schema_version",
+    "timestamp",
+    "tenant_id",
+    "domain_id",
+    "domain",
+    "slug",
+    "destination_url",
+    "status_code"
+  ],
+  "additionalProperties": false,
+  "properties": {
+    "event_id": {
+      "type": "string",
+      "format": "uuid",
+      "description": "UUID (RFC 4122) that uniquely identifies this event across all pipeline stages. Generated at emission time."
+    },
+    "schema_version": {
+      "type": "string",
+      "enum": ["1"],
+      "description": "Schema version string. Increment when breaking field changes are introduced. Consumers must reject unknown versions."
+    },
+    "timestamp": {
+      "type": "string",
+      "format": "date-time",
+      "description": "UTC timestamp of the redirect in ISO 8601 format (e.g. 2024-06-01T12:34:56.789Z)."
+    },
+    "tenant_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Identifier of the tenant that owns the short link."
+    },
+    "domain_id": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Control-plane identifier of the domain entity. Used to join with the control-plane database."
+    },
+    "domain": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Hostname of the short link (e.g. go.customer.com). Normalised to lowercase with trailing dots stripped."
+    },
+    "slug": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Slug component of the short link (e.g. summer-sale). Normalised to lowercase with leading slashes stripped."
+    },
+    "destination_url": {
+      "type": "string",
+      "format": "uri",
+      "description": "Resolved destination URL. Includes any UTM parameters appended by link configuration."
+    },
+    "status_code": {
+      "type": "integer",
+      "enum": [301, 302, 307, 308],
+      "description": "HTTP redirect status code returned to the client."
+    },
+    "country": {
+      "type": ["string", "null"],
+      "pattern": "^[A-Z]{2}$",
+      "description": "ISO 3166-1 alpha-2 country code from the CloudFront-Viewer-Country header. Null when the header is absent."
+    },
+    "region": {
+      "type": ["string", "null"],
+      "description": "ISO 3166-2 region subdivision code (e.g. CA-ON for Ontario, Canada). Populated when extended CloudFront geographic headers are forwarded."
+    },
+    "city": {
+      "type": ["string", "null"],
+      "description": "City name as reported by CloudFront. Populated when extended CloudFront geographic headers are forwarded."
+    },
+    "device_type": {
+      "type": ["string", "null"],
+      "enum": ["mobile", "tablet", "tv", "desktop", null],
+      "description": "Device category derived from CloudFront viewer-type headers. Null when no viewer-type header is present."
+    },
+    "browser": {
+      "type": ["string", "null"],
+      "description": "Browser family (e.g. Chrome, Safari, Firefox). Null when only the hashed User-Agent is available. Populated by downstream enrichment stages."
+    },
+    "os": {
+      "type": ["string", "null"],
+      "description": "Operating system (e.g. Windows, iOS, Android). Null when only the hashed User-Agent is available. Populated by downstream enrichment stages."
+    },
+    "referrer": {
+      "type": ["string", "null"],
+      "description": "Full Referer URL from the HTTP request header. Null when the header is absent."
+    },
+    "utm_source": {
+      "type": ["string", "null"],
+      "description": "UTM source parameter configured on the short link (e.g. newsletter). Null when not configured."
+    },
+    "utm_medium": {
+      "type": ["string", "null"],
+      "description": "UTM medium parameter configured on the short link (e.g. email). Null when not configured."
+    },
+    "utm_campaign": {
+      "type": ["string", "null"],
+      "description": "UTM campaign parameter configured on the short link (e.g. summer24). Null when not configured."
+    },
+    "bot_score": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "maximum": 100,
+      "description": "Bot probability score injected by AWS WAF via the X-Bot-Score header (0 = human, 100 = bot). Null when WAF inspection is not enabled."
+    },
+    "latency_ms": {
+      "type": ["integer", "null"],
+      "minimum": 0,
+      "description": "End-to-end request latency in milliseconds measured by the Lambda handler. Null when not measurable (e.g. CloudFront log path)."
+    },
+    "ip_hash": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 hex digest of the viewer IP address extracted from CloudFront-Viewer-Address. The raw IP is never stored. Null when the header is absent."
+    },
+    "user_agent_hash": {
+      "type": ["string", "null"],
+      "pattern": "^[0-9a-f]{64}$",
+      "description": "SHA-256 hex digest of the User-Agent header value. The raw User-Agent string is never stored. Null when the header is absent."
+    }
+  }
+}

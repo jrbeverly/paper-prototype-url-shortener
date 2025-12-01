@@ -1,0 +1,22 @@
+<Project>
+  <!-- Import root props first; test-specific overrides follow. -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <GenerateDocumentationFile>false</GenerateDocumentationFile>
+    <IsPackable>false</IsPackable>
+    <IsTestProject>true</IsTestProject>
+
+    <!--
+      Test projects intentionally violate several naming/design rules:
+      CA1707: xUnit test names use 'Method_Scenario_Expected' underscore convention.
+      CA1711: xUnit collection fixture types conventionally end in 'Collection'.
+      CA1305: Test data builders construct raw DynamoDB attribute maps; locale-
+              invariant formatting is not needed for in-memory test fixtures.
+      CA1822: Test stub/spy helpers are written as instance methods for symmetry
+              with the interfaces they implement.
+    -->
+    <NoWarn>$(NoWarn);CA1707;CA1711;CA1305;CA1822</NoWarn>
+  </PropertyGroup>
+</Project>

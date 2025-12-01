@@ -1,0 +1,10 @@
+global using System.Diagnostics;
+global using Amazon.DynamoDBv2;
+global using Amazon.DynamoDBv2.Model;
+global using FluentAssertions;
+global using RedirectService.Api.Models;
+global using RedirectService.Api.Repositories;
+global using RedirectService.Api.Services;
+global using RedirectService.PerformanceTests.Infrastructure;
+global using Xunit;
+global using Xunit.Abstractions;

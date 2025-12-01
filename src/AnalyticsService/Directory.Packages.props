@@ -1,0 +1,9 @@
+<Project>
+  <PropertyGroup>
+    <ManagePackageVersionsCentrally>true</ManagePackageVersionsCentrally>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageVersion Include="Amazon.Lambda.Core" Version="2.8.0" />
+    <PackageVersion Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.4.4" />
+  </ItemGroup>
+</Project>

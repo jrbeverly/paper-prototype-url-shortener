@@ -1,0 +1,22 @@
+<Project>
+  <!-- Import root props first; settings below extend or override them for this service. -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup>
+    <!-- Lambda managed runtime requires net8.0; net9.0 is not yet supported. -->
+    <TargetFramework>net8.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+
+    <!--
+      CA1716: 'Function' class and 'BackupRestoreTest.Function' namespace are fixed
+              by Lambda tooling conventions and the project's own name; renaming
+              either would break the handler config or the project structure.
+      CA1001: AWS Lambda manages the function lifetime; the SDK client fields are
+              intentionally reused across invocations for connection pooling and
+              are disposed when the execution environment is recycled by the runtime.
+      CA1869: JsonSerializerOptions is used once per invocation in a diagnostic
+              tool; the allocation is acceptable for this non-hot-path usage.
+    -->
+    <NoWarn>$(NoWarn);CA1716;CA1001;CA1869</NoWarn>
+  </PropertyGroup>
+</Project>

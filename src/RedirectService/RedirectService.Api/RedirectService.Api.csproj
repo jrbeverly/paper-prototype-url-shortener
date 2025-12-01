@@ -1,0 +1,49 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Override Directory.Build.props: Lambda managed runtime requires net8.0 (net9.0 not yet supported). -->
+    <TargetFramework>net8.0</TargetFramework>
+    <AWSProjectType>Lambda</AWSProjectType>
+    <RootNamespace>RedirectService.Api</RootNamespace>
+    <AssemblyName>RedirectService.Api</AssemblyName>
+    <!-- Suppress missing-XML-doc warnings — Lambda handler class is internal infrastructure, not a public library API. -->
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+
+    <!--
+      Cold-start optimization: ReadyToRun (R2R) pre-compiles IL to native code at publish time,
+      reducing JIT work during Lambda initialization.
+
+      Native AOT was evaluated and rejected for this function:
+        - JsonSerializer.Serialize with anonymous types (health check body) requires source
+          generators for AOT and would need significant refactoring.
+        - AWSSDKHandler.RegisterXRayForAllServices() uses reflection to enumerate SDK handlers
+          and is not AOT-compatible without the AWS SDK's AOT source-gen preview package.
+        - The dotnet8 managed Lambda runtime does not natively execute AOT binaries
+          (that requires provided.al2023 + a full build pipeline change).
+
+      Assembly trimming is also disabled: the AWS SDK uses reflection-based DynamoDB
+      attribute mapping and X-Ray handler registration that trimmer cannot statically analyse.
+      At managed-runtime scale (self-contained=false) the unzipped package is well under
+      the 50 MB target without trimming.
+    -->
+    <PublishReadyToRun>true</PublishReadyToRun>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Amazon.Lambda.APIGatewayEvents" />
+    <PackageReference Include="Amazon.Lambda.Core" />
+    <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" />
+    <PackageReference Include="AWSSDK.Kinesis" />
+    <PackageReference Include="AWSXRayRecorder.Core" />
+    <PackageReference Include="AWSXRayRecorder.Handlers.AwsSdk" />
+    <PackageReference Include="AWSSDK.DynamoDBv2" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="RedirectService.Tests" />
+    <InternalsVisibleTo Include="RedirectService.UnitTests" />
+    <InternalsVisibleTo Include="RedirectService.PerformanceTests" />
+    <InternalsVisibleTo Include="DynamicProxyGenAssembly2" />
+  </ItemGroup>
+
+</Project>

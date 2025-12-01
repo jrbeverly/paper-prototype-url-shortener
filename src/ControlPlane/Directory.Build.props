@@ -1,0 +1,24 @@
+<Project>
+  <!-- Import root props first; settings below extend or override them for this service. -->
+  <Import Project="$([MSBuild]::GetPathOfFileAbove('Directory.Build.props', '$(MSBuildThisFileDirectory)../'))" />
+
+  <PropertyGroup>
+    <TargetFramework>net9.0</TargetFramework>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <!--
+      CA1848: ~30 log call sites across authorization handlers, services, and endpoints predate
+              the LoggerMessage source-generator pattern; tracked as a follow-up perf hardening
+              item so logging remains readable without structural boilerplate now.
+      CA1716: ITenantRepository.GetExpiringTrialsAsync uses parameter name 'to' (end-of-range);
+              renaming would be a breaking API change and the conflict with a VB.NET keyword is
+              not a concern for a C#-only codebase.
+      CA1001: HealthCheckService and StripePlanService own SemaphoreSlim fields for controlled
+              concurrency; both are registered as singletons whose lifetime is managed by the DI
+              container, so IDisposable is not required here.
+      CA1859: _planTiers in StripeBillingService is typed as IReadOnlyList<string> to express
+              intent at the interface level; the micro-optimisation to string[] is tracked as
+              follow-up.
+    -->
+    <NoWarn>$(NoWarn);CA1848;CA1716;CA1001;CA1859</NoWarn>
+  </PropertyGroup>
+</Project>
